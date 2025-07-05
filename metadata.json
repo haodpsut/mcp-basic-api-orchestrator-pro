@@ -1,0 +1,5 @@
+{
+  "name": "API Orchestrator Pro (Trình điều phối API)",
+  "description": "Một ứng dụng để kết nối và điều phối trực quan nhiều lệnh gọi API trong một quy trình làm việc. Sử dụng sức mạnh của Gemini để giúp định cấu hình các bước API của bạn.",
+  "requestFramePermissions": []
+}
