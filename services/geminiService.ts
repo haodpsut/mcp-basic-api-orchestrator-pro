@@ -1,17 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import { ApiNodeConfig } from '../types';
 
-if (!process.env.API_KEY) {
-  // In a real app, you'd want to handle this more gracefully.
-  // For this example, we'll log an error to the console.
-  console.error("API_KEY environment variable not set. Gemini features will be disabled.");
+let ai: GoogleGenAI | null = null;
+
+// Sửa ở đây: process.env.API_KEY -> process.env.VITE_API_KEY
+if (process.env.VITE_API_KEY) {
+    ai = new GoogleGenAI({ apiKey: process.env.VITE_API_KEY });
+} else {
+  console.error("VITE_API_KEY environment variable not set. Gemini features will be disabled.");
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
 export const generateApiConfig = async (prompt: string): Promise<Partial<ApiNodeConfig>> => {
-    if (!process.env.API_KEY) {
-        throw new Error("API key is not configured.");
+    if (!ai) {
+        throw new Error("Tính năng AI không khả dụng. Vui lòng đảm bảo VITE_API_KEY đã được định cấu hình.");
     }
 
     const systemInstruction = `You are an expert API configuration assistant. Based on the user's request, provide a JSON object with the following structure: { "name": "...", "url": "...", "method": "GET" | "POST", "headers": "{\\"Content-Type\\":\\"application/json\\"}", "body": "{}" }.
